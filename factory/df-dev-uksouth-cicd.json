@@ -1,0 +1,9 @@
+{
+	"name": "df-dev-uksouth-cicd",
+	"location": "uksouth",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "e8e429b4-4cab-4c1f-b635-589752474bbb",
+		"tenantId": "34ae406c-8fc2-4b71-9129-c26636a7ec07"
+	}
+}
