@@ -10,6 +10,9 @@ permissions:
   contents: read
 
 jobs:
+  # -------------------------
+  # Build Job (Dev → Generate ARM templates)
+  # -------------------------
   build:
     runs-on: ubuntu-latest
     steps:
@@ -39,7 +42,10 @@ jobs:
           name: ExportedArmTemplate
           path: ${{ github.workspace }}/build/ExportedArmTemplate
 
-  release:
+  # -------------------------
+  # Deploy to Test
+  # -------------------------
+  release-test:
     needs: build
     runs-on: ubuntu-latest
     steps:
@@ -56,11 +62,39 @@ jobs:
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           enable-AzPSSession: true
 
-      - name: Deploy to Data Factory
+      - name: Deploy to Test Data Factory
         uses: Azure/data-factory-deploy-action@v1.2.0
         with:
           resourceGroupName: rg-test-uksouth-cicd
           dataFactoryName: df-test-uksouth-cicd
           armTemplateFile: ARMTemplateForFactory.json
-          armTemplateParametersFile: ARMTemplateParametersForFactory.json
-          # additionalParameters: 'factoryName=Test-ADF-111' # optional
+          armTemplateParametersFile: ../../parameters/test.parameters.json
+
+  # -------------------------
+  # Deploy to Prod (manual approval)
+  # -------------------------
+  release-prod:
+    needs: release-test
+    runs-on: ubuntu-latest
+    environment: production   # 👈 triggers manual approval & uses environment secrets
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ExportedArmTemplate
+
+      - name: Azure login
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          enable-AzPSSession: true
+
+      - name: Deploy to Prod Data Factory
+        uses: Azure/data-factory-deploy-action@v1.2.0
+        with:
+          resourceGroupName: rg-prod-uksouth-cicd
+          dataFactoryName: df-prod-uksouth-cicd
+          armTemplateFile: ARMTemplateForFactory.json
+          armTemplateParametersFile: ../../parameters/prod.parameters.json
