@@ -26,11 +26,11 @@ jobs:
         working-directory: ${{ github.workspace }}/build
 
       - name: Validate ADF resources
-        run: npm run build validate ${{ github.workspace }}/ /subscriptions/${{ secrets.AZURE_SUBSCRIPTION_ID }}/resourceGroups/rg-dev-uksouth-cicd/providers/Microsoft.DataFactory/factories/df-dev-uksouth-cicd
+        run: npm run build -- validate ${{ github.workspace }}/ /subscriptions/${{ secrets.AZURE_SUBSCRIPTION_ID }}/resourceGroups/rg-dev-uksouth-cicd/providers/Microsoft.DataFactory/factories/df-dev-uksouth-cicd
         working-directory: ${{ github.workspace }}/build
 
       - name: Validate and Generate ARM template
-        run: npm run build export ${{ github.workspace }}/ /subscriptions/${{ secrets.AZURE_SUBSCRIPTION_ID }}/resourceGroups/rg-dev-uksouth-cicd/providers/Microsoft.DataFactory/factories/df-dev-uksouth-cicd ExportedArmTemplate
+        run: npm run build -- export ${{ github.workspace }}/ /subscriptions/${{ secrets.AZURE_SUBSCRIPTION_ID }}/resourceGroups/rg-dev-uksouth-cicd/providers/Microsoft.DataFactory/factories/df-dev-uksouth-cicd ExportedArmTemplate
         working-directory: ${{ github.workspace }}/build
 
       - name: Upload ARM template artifact
@@ -39,7 +39,7 @@ jobs:
           name: ExportedArmTemplate
           path: ${{ github.workspace }}/build/ExportedArmTemplate
 
-  release:
+  release-test:
     needs: build
     runs-on: ubuntu-latest
     steps:
@@ -56,11 +56,40 @@ jobs:
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           enable-AzPSSession: true
 
-      - name: Deploy to Data Factory
+      - name: Deploy to Data Factory(test)
         uses: Azure/data-factory-deploy-action@v1.2.0
         with:
           resourceGroupName: rg-test-uksouth-cicd
           dataFactoryName: df-test-uksouth-cicd
+          armTemplateFile: ARMTemplateForFactory.json
+          armTemplateParametersFile: ARMTemplateParametersForFactory.json
+          # additionalParameters: 'factoryName=Test-ADF-111' # optional
+
+
+
+  release-prod:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: Production
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ExportedArmTemplate
+
+      - name: Azure login
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          enable-AzPSSession: true
+
+      - name: Deploy to Data Factory(prod)
+        uses: Azure/data-factory-deploy-action@v1.2.0
+        with:
+          resourceGroupName: rg-prod-uksouth-cicd
+          dataFactoryName: df-prod-uksouth-cicd
           armTemplateFile: ARMTemplateForFactory.json
           armTemplateParametersFile: ARMTemplateParametersForFactory.json
           # additionalParameters: 'factoryName=Test-ADF-111' # optional
