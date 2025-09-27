@@ -63,7 +63,9 @@ jobs:
           dataFactoryName: df-test-uksouth-cicd
           armTemplateFile: ARMTemplateForFactory.json
           armTemplateParametersFile: ARMTemplateParametersForFactory.json
-          additionalParameters: ls_az_datalake_accountKey = ${{secrets.TEST_DATALAKE_SECRET}} ls_az_datalake_properties_typeProperties_url = https://sadltestuksouthbr.dfs.core.windows.net/
+          additionalParameters: >
+            ls_az_datalake_accountKey=${{secrets.TEST_DATALAKE_SECRET}}
+            ls_az_datalake_properties_typeProperties_url=https://sadltestuksouthbr.dfs.core.windows.net/
 
 
 
