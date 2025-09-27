@@ -60,7 +60,7 @@ jobs:
         uses: Azure/data-factory-deploy-action@v1.2.0
         with:
           resourceGroupName: rg-test-uksouth-cicd
-          dataFactoryName: rg-test-uksouth-cicd
+          dataFactoryName: df-test-uksouth-cicd
           armTemplateFile: ARMTemplateForFactory.json
           armTemplateParametersFile: ARMTemplateParametersForFactory.json
           # additionalParameters: 'factoryName=Test-ADF-111' # optional
