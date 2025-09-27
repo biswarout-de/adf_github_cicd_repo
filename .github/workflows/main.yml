@@ -67,8 +67,8 @@ jobs:
         with:
           resourceGroupName: rg-test-uksouth-cicd
           dataFactoryName: df-test-uksouth-cicd
-          armTemplateFile: ARMTemplateForFactory.json
-          armTemplateParametersFile: ../../parameters/test.parameters.json
+          armTemplateFile: build/ExportedArmTemplate/ARMTemplateForFactory.json
+          armTemplateParametersFile: parameters/test.parameters.json
 
   # -------------------------
   # Deploy to Prod (manual approval)
@@ -96,5 +96,5 @@ jobs:
         with:
           resourceGroupName: rg-prod-uksouth-cicd
           dataFactoryName: df-prod-uksouth-cicd
-          armTemplateFile: ARMTemplateForFactory.json
-          armTemplateParametersFile: ../../parameters/prod.parameters.json
+          armTemplateFile: build/ExportedArmTemplate/ARMTemplateForFactory.json
+          armTemplateParametersFile: parameters/prod.parameters.json
