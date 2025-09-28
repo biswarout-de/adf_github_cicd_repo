@@ -105,4 +105,4 @@ jobs:
           armTemplateParametersFile: ARMTemplateParametersForFactory.json
           additionalParameters: >
             ls_cicd_kv_properties_typeProperties_baseUrl=https://kv-df-prod-uksouth-br.vault.azure.net/
-            ls_az_sadl_kv_properties_typeProperties_url=https://sadlprodbr.dfs.core.windows.net
+            ls_az_sadl_kv_properties_typeProperties_url=https://sadlproduksouth.dfs.core.windows.net
