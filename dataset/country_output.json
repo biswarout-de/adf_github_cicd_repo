@@ -1,10 +1,6 @@
 {
 	"name": "country_output",
 	"properties": {
-		"linkedServiceName": {
-			"referenceName": "ls_az_datalake_kv",
-			"type": "LinkedServiceReference"
-		},
 		"annotations": [],
 		"type": "DelimitedText",
 		"typeProperties": {
