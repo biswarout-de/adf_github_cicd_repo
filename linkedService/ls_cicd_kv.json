@@ -1,0 +1,10 @@
+{
+	"name": "ls_cicd_kv",
+	"properties": {
+		"annotations": [],
+		"type": "AzureKeyVault",
+		"typeProperties": {
+			"baseUrl": "https://kv-df-dev-uksouth-br.vault.azure.net/"
+		}
+	}
+}
