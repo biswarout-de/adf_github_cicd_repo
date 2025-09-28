@@ -1,5 +1,5 @@
 {
-	"name": "ls_az_datalake_kv",
+	"name": "ls_az_sadl_kv",
 	"properties": {
 		"annotations": [],
 		"type": "AzureBlobFS",
@@ -8,7 +8,7 @@
 			"accountKey": {
 				"type": "AzureKeyVaultSecret",
 				"store": {
-					"referenceName": "ls_az_keyvault",
+					"referenceName": "ls_cicd_kv",
 					"type": "LinkedServiceReference"
 				},
 				"secretName": "datalakekey"

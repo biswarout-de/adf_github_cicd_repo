@@ -1,8 +1,8 @@
 {
-	"name": "country_output",
+	"name": "output_dataset",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "ls_az_datalake_kv",
+			"referenceName": "ls_az_sadl_kv",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
@@ -15,7 +15,7 @@
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",
-			"firstRowAsHeader": false,
+			"firstRowAsHeader": true,
 			"quoteChar": "\""
 		},
 		"schema": []

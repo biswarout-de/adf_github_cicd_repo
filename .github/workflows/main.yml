@@ -56,7 +56,7 @@ jobs:
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           enable-AzPSSession: true
 
-      - name: Deploy to Data Factory(test)
+      - name: Deploy to Data Factory (Test)
         uses: Azure/data-factory-deploy-action@v1.2.0
         with:
           resourceGroupName: rg-test-uksouth-cicd
@@ -64,14 +64,21 @@ jobs:
           armTemplateFile: ARMTemplateForFactory.json
           armTemplateParametersFile: ARMTemplateParametersForFactory.json
           additionalParameters: >
-            ls_az_keyvault_properties_typeProperties_baseUrl=https://kv-df-dev-uksouth-cicd.vault.azure.net/
+            ls_az_keyvault_properties_typeProperties_baseUrl=https://kv-df-test-uksouth-br.vault.azure.net/
             ls_az_datalake_kv_properties_typeProperties_url=https://sadltestuksouthbr.dfs.core.windows.net
 
+  approve:
+    needs: release-test
+    runs-on: ubuntu-latest
+    environment:
+      name: Production   # 👈 This forces manual approval in GitHub UI
+    steps:
+      - name: Wait for manual approval
+        run: echo "✅ Approved to deploy to Production"
 
   release-prod:
-    needs: build
+    needs: approve
     runs-on: ubuntu-latest
-    environment: Production
     steps:
       - name: Download build artifact
         uses: actions/download-artifact@v4
@@ -86,11 +93,13 @@ jobs:
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           enable-AzPSSession: true
 
-      - name: Deploy to Data Factory(prod)
+      - name: Deploy to Data Factory (Prod)
         uses: Azure/data-factory-deploy-action@v1.2.0
         with:
           resourceGroupName: rg-prod-uksouth-cicd
           dataFactoryName: df-prod-uksouth-cicd
           armTemplateFile: ARMTemplateForFactory.json
           armTemplateParametersFile: ARMTemplateParametersForFactory.json
-          # additionalParameters: 'factoryName=Test-ADF-111' # optional
+          additionalParameters: >
+            ls_az_keyvault_properties_typeProperties_baseUrl=https://kv-df-prod-uksouth-br.vault.azure.net/
+            ls_az_datalake_kv_properties_typeProperties_url=https://sadlprodbr.dfs.core.windows.net

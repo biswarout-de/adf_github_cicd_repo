@@ -1,9 +1,9 @@
 {
-	"name": "pl_move_country_data",
+	"name": "pl_copy_country_lookup",
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy data cicd",
+				"name": "Copy Country Look Up  data",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -49,13 +49,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "country_input",
+						"referenceName": "input_dataset",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "country_output",
+						"referenceName": "output_dataset",
 						"type": "DatasetReference"
 					}
 				]
