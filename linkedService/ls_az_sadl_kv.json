@@ -1,0 +1,18 @@
+{
+	"name": "ls_az_sadl_kv",
+	"properties": {
+		"annotations": [],
+		"type": "AzureBlobFS",
+		"typeProperties": {
+			"url": "https://sadldevuksouthbr.dfs.core.windows.net",
+			"accountKey": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "ls_cicd_kv",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "datalakekey"
+			}
+		}
+	}
+}
