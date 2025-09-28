@@ -67,7 +67,7 @@ jobs:
           armTemplateFile: ARMTemplateForFactory.json
           armTemplateParametersFile: ARMTemplateParametersForFactory.json
           additionalParameters: >
-            ls_cicd_kv_properties_typeProperties_baseUrl=https://kv-df-test-uksouth-cicd.vault.azure.net/
+            ls_cicd_kv_properties_typeProperties_baseUrl=https://kv-df-test-uksouth-br.vault.azure.net/
             ls_az_sadl_kv_properties_typeProperties_url=https://sadltestuksouthbr.dfs.core.windows.net
 
   approve:
@@ -104,5 +104,5 @@ jobs:
           armTemplateFile: ARMTemplateForFactory.json
           armTemplateParametersFile: ARMTemplateParametersForFactory.json
           additionalParameters: >
-            ls_cicd_kv_properties_typeProperties_baseUrl=https://kv-df-prod-uksouth-cicd.vault.azure.net/
+            ls_cicd_kv_properties_typeProperties_baseUrl=https://kv-df-prod-uksouth-br.vault.azure.net/
             ls_az_sadl_kv_properties_typeProperties_url=https://sadlprodbr.dfs.core.windows.net
