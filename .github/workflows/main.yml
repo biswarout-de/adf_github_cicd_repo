@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
 
 permissions:
   id-token: write
@@ -64,14 +67,14 @@ jobs:
           armTemplateFile: ARMTemplateForFactory.json
           armTemplateParametersFile: ARMTemplateParametersForFactory.json
           additionalParameters: >
-            ls_az_keyvault_properties_typeProperties_baseUrl=https://kv-df-test-uksouth-br.vault.azure.net/
-            ls_az_datalake_kv_properties_typeProperties_url=https://sadltestuksouthbr.dfs.core.windows.net
+            ls_cicd_kv_properties_typeProperties_baseUrl=https://kv-df-test-uksouth-cicd.vault.azure.net/
+            ls_az_sadl_kv_properties_typeProperties_url=https://sadltestuksouthbr.dfs.core.windows.net
 
   approve:
     needs: release-test
     runs-on: ubuntu-latest
     environment:
-      name: Production   # 👈 This forces manual approval in GitHub UI
+      name: Production   # 👈 Requires manual approval in GitHub Environments
     steps:
       - name: Wait for manual approval
         run: echo "✅ Approved to deploy to Production"
@@ -101,5 +104,5 @@ jobs:
           armTemplateFile: ARMTemplateForFactory.json
           armTemplateParametersFile: ARMTemplateParametersForFactory.json
           additionalParameters: >
-            ls_az_keyvault_properties_typeProperties_baseUrl=https://kv-df-prod-uksouth-br.vault.azure.net/
-            ls_az_datalake_kv_properties_typeProperties_url=https://sadlprodbr.dfs.core.windows.net
+            ls_cicd_kv_properties_typeProperties_baseUrl=https://kv-df-prod-uksouth-cicd.vault.azure.net/
+            ls_az_sadl_kv_properties_typeProperties_url=https://sadlprodbr.dfs.core.windows.net
