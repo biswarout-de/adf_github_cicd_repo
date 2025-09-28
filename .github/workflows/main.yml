@@ -64,9 +64,8 @@ jobs:
           armTemplateFile: ARMTemplateForFactory.json
           armTemplateParametersFile: ARMTemplateParametersForFactory.json
           additionalParameters: >
-            ls_az_datalake_accountKey=${{secrets.TEST_DATALAKE_SECRET}}
-            ls_az_datalake_properties_typeProperties_url=https://sadltestuksouthbr.dfs.core.windows.net/
-
+            ls_az_keyvault_properties_typeProperties_baseUrl=https://kv-df-dev-uksouth-cicd.vault.azure.net/
+            ls_az_datalake_kv_properties_typeProperties_url=https://sadltestuksouthbr.dfs.core.windows.net
 
 
   release-prod:
